@@ -6,15 +6,13 @@ import octoprint.plugin
 import octoprint.filemanager
 import octoprint.filemanager.util
 
-class UnskewPlugin(octoprint.filemanager.util.LineProcessorStream,
-                   octoprint.plugin.TemplatePlugin,
-                   octoprint.plugin.SettingsPlugin):
+class Unskew(octoprint.filemanager.util.LineProcessorStream):
 
-	def loadsettings(self):
-		self.xyerr = float(self._settings.get(["xyerr"]))
-		self.yzerr = float(self._settings.get(["yzerr"]))
-		self.zxerr = float(self._settings.get(["zxerr"]))
-		self.callen = float(self._settings.get(["callen"]))
+	def __init__(self):
+		self.xyerr = 1.0
+		self.yzerr = 0.0
+		self.zxerr = 0.0
+		self.callen = 100.0
 		self.xin = 0.0
 		self.yin = 0.0
 		self.zin = 0.0
@@ -33,22 +31,10 @@ class UnskewPlugin(octoprint.filemanager.util.LineProcessorStream,
 			self.zxtan = self.zxerr/self.callen
 		else:
 			self.zxtan = 0.0
-
-	def get_settings_defaults(self):
-		return dict(
-			xyerr="0.0",
-			yzerr="0.0",
-			zxerr="0.0",
-			callen="100.0"
-		)
-
-	def get_template_configs(self):
-		return [
-			dict(type="settings", custom_bindings=False)
-		]
-
-	def get_version(self):
-		return self._plugin_version
+			
+		self.xin = 0.0
+		self.yin = 0.0
+		self.zin = 0.0
 
 	def process_line(self, line):
 		gmatch = re.match(r'G[0-1]',line,re.I)
@@ -57,17 +43,17 @@ class UnskewPlugin(octoprint.filemanager.util.LineProcessorStream,
 			# load the incoming X coordinate into a variable. Previous value will be used if new value is not found.
 			xsrch = re.search(r'[xX]\d*\.*\d*',line,re.I)
 			if xsrch: # if an X value is found
-					xin = float(re.sub(r'[xX]','',xsrch.group())) # Strip the letter from the coordinate.
+					self.xin = float(re.sub(r'[xX]','',xsrch.group())) # Strip the letter from the coordinate.
 
 			# load the incoming Y coordinate into a variable. Previous value will be used if new value is not found.
 			ysrch = re.search(r'[yY]\d*\.*\d*', line, re.I)
 			if ysrch:
-					yin = float(re.sub(r'[yY]','',ysrch.group())) # Strip the letter from the coordinate.
+					self.yin = float(re.sub(r'[yY]','',ysrch.group())) # Strip the letter from the coordinate.
 
 			# load the incoming Z coordinate into a variable. Previous value will be used if new value is not found.
 			zsrch = re.search(r'[zZ]\d*\.*\d*', line, re.I)
 			if zsrch:
-					zin = float(re.sub(r'[zZ]','',zsrch.group())) # Strip the letter from the coordinate.
+					self.zin = float(re.sub(r'[zZ]','',zsrch.group())) # Strip the letter from the coordinate.
 
 			# calculate the corrected/skewed XYZ coordinates
 			xout = round(xin-yin*xytan,3)
@@ -89,7 +75,6 @@ class UnskewPlugin(octoprint.filemanager.util.LineProcessorStream,
 		else:
 			return line
 
-
 def unskew_gcode(path, file_object, links=None, printer_profile=None, allow_overwrite=True, *args, **kwargs):
 	if not octoprint.filemanager.valid_file_type(path, type="gcode"):
 		return file_object
@@ -99,9 +84,7 @@ def unskew_gcode(path, file_object, links=None, printer_profile=None, allow_over
 	if not name.endswith("_unskew"):
 		return file_object
 
-	unskewer = UnskewPlugin(file_object.stream());
-	unskewer.loadsettings()
-	return octoprint.filemanager.util.StreamWrapper(file_object.filename, unskewer)
+	return octoprint.filemanager.util.StreamWrapper(file_object.filename, ))
 
 
 __plugin_name__ = "Unskew"
