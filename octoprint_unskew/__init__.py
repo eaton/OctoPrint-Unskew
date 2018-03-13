@@ -13,7 +13,7 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin,
 			xyerr=[0.0],
 			yzerr=[0.0],
 			zxerr=[0.0],
-			callen=[100.0],
+			callen=[100.0]
 		)
 
 	def get_template_configs(self):
