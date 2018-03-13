@@ -20,14 +20,6 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 			dict(type="settings", custom_bindings=False)
 		]
 
-	def get_template_vars(self):
-		return dict(
-			xyerr=self._settings.get["xyerr"],
-			yzerr=self._settings.get["yzerr"],
-			zxerr=self._settings.get["zxerr"],
-			callen=self._settings.get["callen"]
-		)
-
 	def compensate_for_skew(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
 
 		xyerr = self._settings.get(["xyerr"])
@@ -92,15 +84,14 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 					lineout = cmd
 
 					if xsrch:
-							lineout = re.sub(r'[xX]\d*\.*\d*', 'X' + str(xout), lineout)
+							cmd = re.sub(r'[xX]\d*\.*\d*', 'X' + str(xout), cmd)
 
 					if ysrch:
-							lineout = re.sub(r'[yY]\d*\.*\d*', 'Y' + str(yout), lineout)
+							cmd = re.sub(r'[yY]\d*\.*\d*', 'Y' + str(yout), cmd)
 
 					if zsrch:
-							lineout = re.sub(r'[zZ]\d*\.*\d*', 'Z' + str(zout), lineout)
+							cmd = re.sub(r'[zZ]\d*\.*\d*', 'Z' + str(zout), cmd)
 
-					cmd = lineout
 		return cmd,
 
 	def get_version(self):
