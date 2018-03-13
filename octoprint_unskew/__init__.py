@@ -4,8 +4,7 @@ from __future__ import absolute_import
 import re
 import octoprint.plugin
 
-class UnskewPlugin(octoprint.plugin.OctoPrintPlugin,
-                   octoprint.plugin.TemplatePlugin,
+class UnskewPlugin(octoprint.plugin.TemplatePlugin,
                    octoprint.plugin.SettingsPlugin):
 
 	def get_settings_defaults(self):
