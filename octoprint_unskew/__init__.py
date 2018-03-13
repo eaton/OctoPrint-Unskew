@@ -86,14 +86,7 @@ def unskew_gcode(path, file_object, links=None, printer_profile=None, allow_over
 
 	return octoprint.filemanager.util.StreamWrapper(file_object.filename, Unskew(file_object.stream()))
 
-
 __plugin_name__ = "Unskew"
-
-def __plugin_load__():
-	global __plugin_implementation__
-	__plugin_implementation__ = UnskewPlugin()
-
-	global __plugin_hooks__
-	__plugin_hooks__ = {
-    "octoprint.filemanager.preprocessor": __plugin_implementation__.unskew_coordinates
-	}
+__plugin_hooks__ = {
+	"octoprint.filemanager.preprocessor": unskew_gcode
+}
