@@ -30,10 +30,10 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 		if not octoprint.filemanager.valid_file_type(path, type="gcode"):
 			return file_object
 
-		xyerr = self._settings.get(["xyerr"])
-		yzerr = self._settings.get(["yzerr"])
-		zxerr = self._settings.get(["zxerr"])
-		callen = self._settings.get(["callen"])
+		xyerr = float(self._settings.get(["xyerr"]))
+		yzerr = float(self._settings.get(["yzerr"]))
+		zxerr = float(self._settings.get(["zxerr"]))
+		callen = float(self._settings.get(["callen"]))
 
 		if not xyerr == 0:
 			xytan = xyerr/callen
