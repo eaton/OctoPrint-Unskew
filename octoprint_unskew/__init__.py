@@ -93,13 +93,13 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 
 				lineout = line
 				if xsrch:
-						lineout = re.sub(r'[xX]\d*\.*\d*', 'X' + str(xout), cmd)
+						lineout = re.sub(r'[xX]\d*\.*\d*', 'X' + str(xout), lineout)
 
 				if ysrch:
-						lineout = re.sub(r'[yY]\d*\.*\d*', 'Y' + str(yout), cmd)
+						lineout = re.sub(r'[yY]\d*\.*\d*', 'Y' + str(yout), lineout)
 
 				if zsrch:
-						lineout = re.sub(r'[zZ]\d*\.*\d*', 'Z' + str(zout), cmd)
+						lineout = re.sub(r'[zZ]\d*\.*\d*', 'Z' + str(zout), lineout)
 
 				outfile.write(lineout)
 			else:
