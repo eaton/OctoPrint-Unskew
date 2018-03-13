@@ -9,10 +9,10 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 
 	def get_settings_defaults(self):
 		return dict(
-			xyerr=0.0,
-			yzerr=0.0,
-			zxerr=0.0,
-			callen=100.0
+			xyerr="0.0",
+			yzerr="0.0",
+			zxerr="0.0",
+			callen="100.0"
 		)
 
 	def get_template_configs(self):
@@ -59,15 +59,13 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 		if not zxtan == 0:
 			self._logger.info("Unskew: The ZX error is set to %s degrees" % zxtan)
 
-		if xytan == 0.0 and yztan == 0.0 and zxtan == 0.0:
-			self._logger.info("Unskew: No skew parameters provided. Nothing will be done.")
 
 		xin = 0.0
 		yin = 0.0
 		zin = 0.0
 
 		if gcode:
-			gmatch = re.match(r'G[0-1]',cmd,re.I)
+			gmatch = re.match(r'G[0-1]',gcode,re.I)
 			if gmatch:
 
 					# load the incoming X coordinate into a variable. Previous value will be used if new value is not found.
@@ -91,7 +89,7 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 					xout = round(xout-zin*zxtan,3)
 					zout = zin # Z coodinates must remain the same to prevent layers being tilted!
 
-					lineout = line
+					lineout = cmd
 
 					if xsrch:
 							lineout = re.sub(r'[xX]\d*\.*\d*', 'X' + str(xout), lineout)
