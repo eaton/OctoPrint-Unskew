@@ -63,7 +63,7 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 		yin = 0.0
 		zin = 0.0
 		
-		outfile = octoprint.filemanager.util.AbstractFileWrapper(file_object.filename)
+		outfile = octoprint.filemanager.util.DiskFileWrapper(file_object.filename)
 
 		for line in file_object.stream():
 			# Check that the current 'line' is a move, if so the line is processed
