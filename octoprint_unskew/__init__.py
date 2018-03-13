@@ -65,7 +65,7 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 		
 		outfile = octoprint.filemanager.util.AbstractFileWrapper(file_object.filename)
 
-		for line in file_object:
+		for line in file_object.stream():
 			# Check that the current 'line' is a move, if so the line is processed
 			gmatch = re.match(r'G[0-1]',line,re.I)
 			if gmatch:
