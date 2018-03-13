@@ -4,7 +4,7 @@ from __future__ import absolute_import
 import re
 import octoprint.plugin
 
-class UnskewPlugin(octoprint.plugin.OctoPrintPlugin, octoprint.plugin.SettingsPlugin):
+class UnskewPlugin(octoprint.plugin.OctoPrintPlugin, octoprint.plugin.SettingsPlugin, octoprint.plugin.TemplatePlugin):
 
 	def get_settings_defaults(self):
 		return dict(
@@ -16,16 +16,16 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin, octoprint.plugin.SettingsPl
 
 	def get_template_configs(self):
 		return [
-			dict(type="settings", custom_bindings=False)
+			dict(type="settings", template="unskew_settings.jinja2", custom_bindings=True)
 		]
 
 
 	def compensate_for_skew(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
 
-		xyerr = self._settings.get(["xyerr"]
-		yzerr = self._settings.get(["yzerr"]
-		zxerr = self._settings.get(["zxerr"]
-		callen = self._settings.get(["callen"]
+		xyerr = self._settings.get(["xyerr"])
+		yzerr = self._settings.get(["yzerr"])
+		zxerr = self._settings.get(["zxerr"])
+		callen = self._settings.get(["callen"])
 
 		if not xyerr == 0:
 			xytan = xyerr/callen
@@ -96,6 +96,9 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin, octoprint.plugin.SettingsPl
 
 					cmd = lineout
 		return cmd,
+
+	def get_version(self):
+		return self._plugin_version
 
 __plugin_name__ = "Unskew"
 def __plugin_load__():
