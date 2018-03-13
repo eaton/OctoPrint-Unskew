@@ -6,8 +6,7 @@ import octoprint.plugin
 import octoprint.filemanager
 import octoprint.filemanager.util
 
-class UnskewPlugin(octoprint.filemanager.util.AbstractFileWrapper,
-                   octoprint.plugin.TemplatePlugin,
+class UnskewPlugin(octoprint.plugin.TemplatePlugin,
                    octoprint.plugin.SettingsPlugin):
 
 	def get_settings_defaults(self):
