@@ -25,7 +25,7 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 	def get_version(self):
 		return self._plugin_version
 
-	def unskew_coordinates(path, file_object, links=None, printer_profile=None, allow_overwrite=True, *args, **kwargs):
+	def unskew_coordinates(self, path, file_object, links=None, printer_profile=None, allow_overwrite=True, *args, **kwargs):
 
 		if not octoprint.filemanager.valid_file_type(path, type="gcode"):
 			return file_object
