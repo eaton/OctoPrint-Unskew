@@ -33,7 +33,7 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin, octoprint.plugin.SettingsPl
 			xytan = 0.0
 
 		if not xytan == 0:
-			self._logger.info("Unskew: The XY error is set to %s degrees" % xytan))
+			self._logger.info("Unskew: The XY error is set to %s degrees" % xytan)
 
 		if not yzerr == 0:
 			yztan = yzerr/callen
@@ -41,7 +41,7 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin, octoprint.plugin.SettingsPl
 			yztan = 0.0
 
 		if not yztan == 0:
-			self._logger.info("Unskew: The YZ error is set to %s degrees" % yztan))
+			self._logger.info("Unskew: The YZ error is set to %s degrees" % yztan)
 
 		if not zxerr == 0:
 			zxtan = zxerr/callen
@@ -49,10 +49,10 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin, octoprint.plugin.SettingsPl
 			zxtan = 0.0
 
 		if not zxtan == 0:
-			self._logger.info("Unskew: The ZX error is set to %s degrees" % zxtan))
+			self._logger.info("Unskew: The ZX error is set to %s degrees" % zxtan)
 
 		if xytan == 0.0 and yztan == 0.0 and zxtan == 0.0:
-			self._logger.info("Unskew: No skew parameters provided. Nothing will be done."))
+			self._logger.info("Unskew: No skew parameters provided. Nothing will be done.")
 
 		xin = 0.0
 		yin = 0.0
