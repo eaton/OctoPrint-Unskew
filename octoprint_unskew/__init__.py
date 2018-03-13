@@ -5,8 +5,8 @@ import re
 import octoprint.plugin
 
 class UnskewPlugin(octoprint.plugin.OctoPrintPlugin,
-                   octoprint.plugin.SettingsPlugin,
-                   octoprint.plugin.TemplatePlugin):
+                   octoprint.plugin.TemplatePlugin,
+                   octoprint.plugin.SettingsPlugin):
 
 	def get_settings_defaults(self):
 		return dict(
@@ -18,9 +18,16 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin,
 
 	def get_template_configs(self):
 		return [
-			dict(type="settings", template="unskew_settings.jinja2", custom_bindings=True)
+			dict(type="settings", template="unskew_settings.jinja2", custom_bindings=False)
 		]
 
+	def get_template_vars(self):
+		return dict(
+			xyerr=self._settings.get["xyerr"],
+			yzerr=self._settings.get["yzerr"],
+			zxerr=self._settings.get["zxerr"],
+			callen=self._settings.get["callen"]
+		)
 
 	def compensate_for_skew(self, comm_instance, phase, cmd, cmd_type, gcode, *args, **kwargs):
 
@@ -103,6 +110,7 @@ class UnskewPlugin(octoprint.plugin.OctoPrintPlugin,
 		return self._plugin_version
 
 __plugin_name__ = "Unskew"
+
 def __plugin_load__():
 	global __plugin_implementation__
 	__plugin_implementation__ = UnskewPlugin()
