@@ -9,15 +9,15 @@ class UnskewPlugin(octoprint.plugin.TemplatePlugin,
 
 	def get_settings_defaults(self):
 		return dict(
-			xyerr=[0.0],
-			yzerr=[0.0],
-			zxerr=[0.0],
-			callen=[100.0]
+			xyerr=0.0,
+			yzerr=0.0,
+			zxerr=0.0,
+			callen=100.0
 		)
 
 	def get_template_configs(self):
 		return [
-			dict(type="settings", template="unskew_settings.jinja2", custom_bindings=False)
+			dict(type="settings", custom_bindings=False)
 		]
 
 	def get_template_vars(self):
